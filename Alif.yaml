@@ -1,0 +1,135 @@
+openapi: '3.0.2'
+info:
+  title: "Dunia Logistic API"
+  description: "Pengiriman Barang Antar Provinsi"
+  contact:
+    name: "Moh. Alif Al Lukman"
+    email: "allukman.lukman99@gmail.com" 
+  version: "1.0.1"
+servers:
+  - url: https://api.server.test/v1
+    description: "API Link"
+tags:
+  - name: "User"
+    description: "Managemen pengguna Internal"
+paths:
+  /User:
+    get:
+      summary: "All User"
+      tags:
+        - "User"
+      responses:
+        '200':
+          description: "Berhasil mengambil data"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  "name":
+                    type: string
+                  "resi":
+                    type: integer
+                  "tanggal":
+                    type: string
+                    format: date
+                  "alamat":
+                    type: string
+                  "jenis barang":
+                    type: string
+                  "jenis pengiriman":
+                    type: string
+              example:
+                name: "Alif"
+                resi: 2022010121
+                tanggal: 2022-10-03
+                alamat: "Jl.gunung anthena 1 Denpasar barat, Bali"
+                jenis barang: "Barang pecah belah"
+                jenis pengiriman": "Via Darat"
+        '500':
+          $ref: "#/components/responses/500"
+    post: #menambahkan data
+      summary: "Add User"
+      description: "menambahkan User"
+      tags:
+        - "User"
+      requestBody:
+        required: true
+        content:
+          "application/json":
+            schema:
+              $ref: "#/components/schemas/UserObject"
+            example:
+              name: "ilham"
+              resi: 2022010123
+              tanggal: 2022-09-01
+              alamat: "Jl.gunung soputan Denpasar barat, Bali"
+              jenis barang: "makanan"
+              jenis pengiriman": "Via Udara"
+      responses:
+        '201':
+          description: "succes create date"
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: "#/components/schemas/SuccesResult"
+              example:
+                message: "Berhasil buat data user"
+                data:
+                  name: "ilham"
+                  resi: 2022010123
+                  tanggal: 2022-09-01
+                  alamat: "Jl.gunung soputan Denpasar barat, Bali"
+                  jenis barang: "makanan"
+                  jenis pengiriman": "Via Udara"
+        '500':
+          $ref: "#/components/responses/500"
+components:
+  schemas:
+    "UserObject":
+      type:  object
+      properties:
+        "name":
+          type: string
+        "resi":
+          type: integer
+        "tanggal":
+          type: string
+          format: date
+        "alamat":
+          type: string
+        "jenis barang":
+          type: string
+        "jenis pengiriman":
+          type: string
+    "SuccesResult":
+      type: object
+      properties:
+        message:
+          type: string
+        date:
+          type: object
+  responses:
+    '201':
+      description: "Berhasil membuat data"
+      content:
+        "application/json":
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+              data:
+                type: object
+    '500':
+      description: "Error from server"
+      content:
+        "application/json":
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+          example:
+            message: "cannot process data, server error!!!"
